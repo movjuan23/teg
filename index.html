@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movimiento Juan XXIII Honduras - Arquidiócesis de Tegucigalpa</title>
+    <meta name="description" content="Movimiento Juan XXIII Honduras, Arquidiócesis de Tegucigalpa. Amor, Entrega, Sacrificio.">
+
+    <!-- Ícono y Fuentes -->
+    <link rel="icon" type="image/png" href="4K.png">
+
+    <!-- Font Awesome para los Iconos de Redes Sociales -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+     
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+    <!-- Estilos Personalizados CSSSSSSSSSSSS -->
+    <style>
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+        :root {
+          --color-yellow: #FFD700;
+          --color-yellow-alt: #FFC72C;
+          --color-black: #000000;
+          --color-blue: #1E4D8B;
+          --color-blue-dark: #143A6B;
+          --color-blue-light: #2E5C9A;
+          --color-white: #FFFFFF;
+          --color-brown: #2C1810;
+          
+          --bg-primary: #FFFFFF;
+          --bg-secondary: #F0F5FB;
+          --bg-tertiary: #E6EEF7;
+          --bg-yellow: #FFD700;
+          --bg-blue: #1E4D8B;
+          --text-primary: #000000;
+          --text-secondary: #1F2937;
+          --text-muted: #4B5563;
+          --text-dark: #000000;
+          --text-light: #FFFFFF;
+          --text-gray-light: #E2E8F0;
+          --border-color: #1E4D8B;
+          --glass-bg: rgba(30, 77, 139, 0.08);
+          --glass-border: rgba(30, 77, 139, 0.3);
+          --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+          --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.15);
+          --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+          --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.25);
+          --shadow-blue: 0 8px 16px -4px rgba(30, 77, 139, 0.4);
+          --shadow-yellow: 0 8px 16px -4px rgba(255, 215, 0, 0.4);
+        }
+
+        [data-theme="dark"] {
+          --bg-primary: #0B1523;
+          --bg-secondary: #152238;
+          --bg-tertiary: #1E2E45;
+          --bg-yellow: #FFD700;
+          --bg-blue: #1E4D8B;
+          --text-primary: #FFFFFF;
+          --text-secondary: #E2E8F0;
+          --text-muted: #CBD5E1;
+          --text-dark: #FFFFFF;
+          --text-light: #FFFFFF;
+          --text-gray-light: #E2E8F0;
+          --border-color: #FFD700;
+          --glass-bg: rgba(30, 77, 139, 0.15);
+          --glass-border: rgba(255, 215, 0, 0.4);
+          --shadow-sm: 0 1px 2px 0 rgba(255, 215, 0, 0.2);
+          --shadow-md: 0 4px 6px -1px rgba(255, 215, 0, 0.3);
+          --shadow-lg: 0 10px 15px -3px rgba(30, 77, 139, 0.4);
+          --shadow-xl: 0 20px 25px -5px rgba(30, 77, 139, 0.5);
+          --shadow-blue: 0 8px 16px -4px rgba(30, 77, 139, 0.7);
+          --shadow-yellow: 0 8px 16px -4px rgba(255, 215, 0, 0.6);
+        }
+
+/* Corrección de visibilidad de textos en el modo oscuro (Sección Hero) */
+[data-theme="dark"] #inicio h1 {
+  color: var(--text-primary) !important; /* Blanco */
+}
+
+[data-theme="dark"] #inicio h1 span {
+  color: var(--color-yellow) !important; /* El resaltado "Sacrificio" pasa a amarillo para que contraste genial, o var(--text-gray-light) si prefieres gris */
+}
+
+[data-theme="dark"] #inicio p {
+  color: var(--text-muted) !important; /* Gris claro suave */
+}
+
+
+        body {
+          font-family: 'Inter', sans-serif;
+          background-color: var(--bg-primary);
+          color: var(--text-primary);
+          transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .glass-strong {
+          background: var(--color-blue);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border-bottom: 4px solid var(--color-yellow);
+          box-shadow: var(--shadow-blue);
+        }
+
+        .hero-gradient {
+          background: linear-gradient(135deg, rgba(30, 77, 139, 0.1) 0%, rgba(255, 215, 0, 0.1) 50%, rgba(30, 77, 139, 0.05) 100%);
+        }
+
+        .btn-primary {
+          background: var(--color-yellow);
+          color: var(--color-black);
+          font-weight: 700;
+          border: 3px solid var(--color-blue);
+          transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+          background: var(--color-blue);
+          color: var(--color-white);
+          border-color: var(--color-yellow);
+          transform: translateY(-3px);
+        }
+
+        .btn-secondary {
+          background: var(--color-blue);
+          color: var(--color-white);
+          font-weight: 700;
+          border: 3px solid var(--color-yellow);
+          transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+          background: var(--color-yellow);
+          color: var(--color-black);
+          border-color: var(--color-blue);
+          transform: translateY(-3px);
+        }
+
+        .nav-link {
+          position: relative;
+          transition: color 0.3s ease;
+          font-weight: 600;
+          color: var(--color-white) !important;
+        }
+        .nav-link::after {
+          content: '';
+          position: absolute;
+          bottom: -6px;
+          left: 0;
+          width: 0;
+          height: 3px;
+          background: var(--color-yellow);
+          transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+          width: 100%;
+        }
+
+        .pillar-card {
+          background: var(--color-white);
+          border: 3px solid var(--color-blue);
+          transition: all 0.3s ease;
+        }
+        .pillar-card:hover {
+          transform: translateY(-5px);
+          box-shadow: var(--shadow-blue);
+          border-color: var(--color-yellow);
+        }
+
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+        }
+        .float-animation {
+          animation: float 4s ease-in-out infinite;
+        }
+
+    /* ==========================================================================
+    CORRECCIÓN MODO OSCURO PARA PILARES, RETIROS Y GALERÍA
+    ========================================================================== */
+    [data-theme="dark"] #pilares, 
+    [data-theme="dark"] #retiros, 
+    [data-theme="dark"] #galeria {
+    background-color: var(--bg-secondary) !important; /* Fondo azul oscuro/grisáceo */
+    }
+
+    /* Forzar títulos principales a blanco */
+    [data-theme="dark"] #pilares h2, 
+    [data-theme="dark"] #retiros h2, 
+    [data-theme="dark"] #galeria h2,
+    [data-theme="dark"] #pilares h3,
+    [data-theme="dark"] #retiros h3 {
+    color: #FFFFFF !important;
+    }
+
+    /* Forzar textos descriptivos/secundarios a gris claro */
+    [data-theme="dark"] #pilares p, 
+    [data-theme="dark"] #retiros p, 
+    [data-theme="dark"] #galeria p {
+    color: #CBD5E1 !important;
+    }
+
+    /* Adaptación de las tarjetas de los Pilares */
+    [data-theme="dark"] .pillar-card {
+    background-color: var(--bg-tertiary) !important;
+    border-color: var(--border-color) !important;
+    }
+
+    /* Adaptación de las tarjetas de los Retiros */
+    [data-theme="dark"] #retiros .border-2 {
+    background-color: var(--bg-tertiary) !important;
+    border-color: var(--bg-tertiary) !important;
+    }
+    [data-theme="dark"] #retiros .border-2:hover {
+    border-color: var(--border-color) !important;
+    }
+
+    /* Adaptación de las tarjetas dinámicas de la Galería */
+    [data-theme="dark"] #galeriaCloudinary a {
+    background-color: var(--bg-tertiary) !important;
+    border-color: rgba(255, 215, 0, 0.2) !important;
+    }
+
+    </style>        
+</head>
+    <!-- TODO EL CONTENIDO HTML Y SCRITP -->
+    <body>
+        <!-- MENÚ DE NAVEGACIÓN -->
+        <nav class="glass-strong fixed top-0 left-0 w-full z-50 px-6 py-4 flex items-center justify-between">
+        <!-- LOGO CORREGIDO PARA IR ARRIBA AL TOCARLO -->
+            <a href="#inicio" class="flex items-center gap-3 hover:opacity-90 transition cursor-pointer">
+                <img src="4K.png" alt="Logo Juan XXIII" class="h-12 w-12 object-contain rounded-full border-2 border-white">
+                <div>
+                    <span class="text-white font-black text-lg block leading-none">Movimiento Juan XXIII</span>
+                    <span class="text-yellow-400 font-medium text-xs">Arquidiócesis de Tegucigalpa</span>
+                </div>
+            </a>
+            </div>
+            
+            <!-- Enlaces Escritorio -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#inicio" class="nav-link">Inicio</a>
+                <a href="#pilares" class="nav-link">Pilares</a>
+                <a href="#retiros" class="nav-link">Retiros</a>
+                <a href="#galeria" class="nav-link">Galería</a>
+                <a href="#contacto" class="nav-link">Contacto</a>
+
+            <button onclick="toggleTheme()" class="text-white p-2 rounded-lg bg-slate-700/50 hover:bg-slate-600/50 transition">
+                    🌓
+                </button>
+            </div>
+
+            <!-- Botón Móvil -->
+            <button onclick="toggleMobileMenu()" class="md:hidden text-white text-2xl focus:outline-none">
+                ☰
+            </button>        
+        </nav>
+
+        <!-- MENÚ MÓVIL OVERLAY -->
+        <div id="mobileMenu" class="fixed inset-0 bg-[#1E4D8B] z-40 flex flex-col items-center justify-center gap-6 text-xl hidden">
+            <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 text-white text-3xl">✕</button>
+            <a href="#inicio" onclick="toggleMobileMenu()" class="text-white font-bold hover:text-yellow-300">Inicio</a>
+            <a href="#pilares" onclick="toggleMobileMenu()" class="text-white font-bold hover:text-yellow-300">Pilares</a>
+            <a href="#retiros" onclick="toggleMobileMenu()" class="text-white font-bold hover:text-yellow-300">Retiros</a>
+            <a href="#galeria" onclick="toggleMobileMenu()" class="text-white font-bold hover:text-yellow-300">Galería</a>
+            <a href="#contacto" onclick="toggleMobileMenu()" class="text-white font-bold hover:text-yellow-300">Contacto</a>
+            <button onclick="toggleTheme(); toggleMobileMenu()" class="text-white px-4 py-2 bg-slate-800 rounded-lg">Cambiar Tema 🌓</button>
+        </div>
+
+        <!-- SECCIÓN HERO (INICIO) -->
+        <section id="inicio" class="hero-gradient min-h-screen pt-32 px-6 flex items-center">
+            <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <span class="bg-[#1E4D8B] text-white font-bold px-4 py-1.5 rounded-full text-sm inline-block tracking-wide">
+                        MOVIMIENTO JUAN XXIII
+                    </span>
+                    <h1 class="text-4xl md:text-6xl font-black tracking-tight text-slate-900">
+                        Amor, Entrega y <span class="text-[#1E4D8B]">Sacrificio</span>
+                    </h1>
+                    <p class="text-lg text-slate-700 leading-relaxed">
+                        Bienvenidos al Movimiento Juan XXIII en la Arquidiócesis de Tegucigalpa en Honduras. Un camino de fe, conversión y servicio a Dios, bajo el legado de nuestro fundador Nelsón Rivera Beauchamp y con la gracias de Dios esta el gran MOVIMIENTO JUAN XXIII .
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#retiros" class="btn-primary px-8 py-3.5 rounded-xl text-center shadow-md">Próximos Retiros</a>
+                        <a href="#contacto" class="btn-secondary px-8 py-3.5 rounded-xl text-center shadow-md">Escríbenos</a>
+                    </div>
+                </div>
+                <div class="flex justify-center">
+                    <img src="4K.png" alt="Ilustración Movimiento" class="w-4/5 md:w-full max-w-md object-contain float-animation drop-shadow-2xl rounded-2xl">
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN PILARES -->
+        <section id="pilares" class="py-24 px-6 bg-slate-50">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center max-w-2xl mx-auto mb-16">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Nuestros Tres Pilares</h2>
+                    <p class="text-slate-600">La esencia de nuestro carisma plasmada en el día a día del retirista.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Pilar 1 -->
+                    <div class="pillar-card p-8 rounded-2xl shadow-sm text-center">
+                        <div class="w-16 h-16 bg-[#1E4D8B] rounded-2xl flex items-center justify-center text-white text-3xl font-bold mx-auto mb-6">❤️</div>
+                        <h3 class="text-2xl font-bold mb-3 text-slate-900">Amor</h3>
+                        <p class="text-slate-600">El motor que guía nuestras acciones, amando a Dios sobre todas las cosas y al prójimo como a nosotros mismos.</p>
+                    </div>
+                    <!-- Pilar 2 -->
+                    <div class="pillar-card p-8 rounded-2xl shadow-sm text-center">
+                        <div class="w-16 h-16 bg-[#1E4D8B] rounded-2xl flex items-center justify-center text-white text-3xl font-bold mx-auto mb-6">🤝</div>
+                        <h3 class="text-2xl font-bold mb-3 text-slate-900">Entrega</h3>
+                        <p class="text-slate-600">Disposición plena de nuestros dones y tiempo al servicio de la Iglesia y de las almas sedientas de Dios.</p>
+                    </div>
+                    <!-- Pilar 3 -->
+                    <div class="pillar-card p-8 rounded-2xl shadow-sm text-center">
+                        <div class="w-16 h-16 bg-[#1E4D8B] rounded-2xl flex items-center justify-center text-white text-3xl font-bold mx-auto mb-6">✝️</div>
+                        <h3 class="text-2xl font-bold mb-3 text-slate-900">Sacrificio</h3>
+                        <p class="text-slate-600">Ofrecimiento humilde y oración constante para la conversión de los pecadores y el sustento de nuestra misión.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN RETIROS -->
+
+<!-- SECCIÓN RETIROS -->
+        <section id="retiros" class="py-24 px-6 bg-white">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center max-w-2xl mx-auto mb-16">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Próximas Retiros y Convivencias</h2>
+                    <p class="text-slate-600">Entra en un espacio de reflexión espiritual y un encuentro personal contigo mismo y con el Dios.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <!-- Tarjeta Retiro  -->
+                    <div class="border-2 border-slate-200 rounded-2xl p-6 bg-slate-50 flex flex-col justify-between hover:border-[#1E4D8B] transition">
+                        <div>
+                            <span class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full uppercase">Todos</span>
+                            <h3 class="text-2xl font-bold mt-3 mb-2 text-slate-900">Aniversario  - Talanga Francisco Morazán</h3>
+                            <p class="text-slate-600 text-sm mb-4">Para este aniversario estan cordialmente invitados todos los HOMBRES y MUJERES que ya realizarón su retiro del Movimiento.</p>
+                        </div>
+                        <!-- ENLACE DIRECTO AL FORMULARIO -->
+                        <a href="#contacto" class="w-full btn-primary py-3 rounded-xl mt-4 text-center block">Solicitar Información</a>
+                    </div>
+
+                    <!-- Tarjeta Retiro  -->
+                     <div class="border-2 border-slate-200 rounded-2xl p-6 bg-slate-50 flex flex-col justify-between hover:border-[#1E4D8B] transition">
+                        <div>
+                            <span class="bg-purple-100 text-purple-800 text-xs font-bold px-3 py-1 rounded-full uppercase">simultaneo</span>
+                            <h3 class="text-2xl font-bold mt-3 mb-2 text-slate-900">Retiro Simultaneo - Noviembre del 2026</h3>
+                            <p class="text-slate-600 text-sm mb-4">Ultimo retiro del año en el cual estan invitados todos los HOMBRES y MUJERES mayores de 18 años, el lugar dentro de poco les comunicamos.</p>
+                        </div>
+                        <!-- ENLACE DIRECTO AL FORMULARIO -->
+                        <a href="#contacto" class="w-full btn-primary py-3 rounded-xl mt-4 text-center block">Solicitar Información</a>
+                    </div> 
+                </div>
+            </div>
+        </section>
+        
+
+
+
+        <!-- SECCIÓN GALERIA -->
+        <section id="galeria" class="py-12 px-6 bg-white">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center max-w-2xl mx-auto mb-8">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Galería</h2>
+                    <p class="text-slate-600">Momentos compartidos en fe, servicio y fraternidad.</p>
+                </div>
+
+                <div id="galeriaCloudinary" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+                <p id="galeriaEstado" class="text-center text-slate-500 mt-6">Cargando galería...</p>
+            </div>
+        </section>
+    <!-- -------------------------------------------------------------------------------------------------- -->
+
+
+        <!-- SECCIÓN CONTACTO -->
+<!-- ==========================================================================
+     SECCIÓN CONTACTO CORREGIDA 
+     ========================================================================== -->
+<section id="contacto" class="py-24 px-6 bg-slate-900 text-white">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-white mb-4">Ponte en Contacto con Nosotros</h2>
+            <p class="text-slate-400">¿Quieres ser parte de algún retiro del movimiento o necesitas detalles? Déjanos un mensaje.</p>
+        </div>
+
+        <form action="https://formsubmit.co/movjuanxxiii@yahoo.com" method="POST" class="space-y-6">
+            <!-- DIRECCIÓN CORREGIDA DE RAÍZ EN GITHUB PAGES -->
+            <input type="hidden" name="_next" value="https://movjuan23.github.io/arquiteg.github.io/gracias.html">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_subject" value="Nuevo Mensaje - Movimiento Juan XXIII">
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium mb-2 text-slate-300">Nombre Completo</label>
+                    <input type="text" name="nombre" required placeholder="Ej. Juan Pérez" class="w-full p-4 rounded-xl border border-slate-700 bg-slate-800 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                </div>
+            <div>
+                <label class="block text-sm font-medium mb-2 text-slate-300">Teléfono (8 dígitos)</label>
+                <input 
+                    type="tel" 
+                    name="telefono" 
+                    required 
+                    pattern="[0-9]{4}-[0-9]{4}" 
+                    maxlength="9" 
+                    minlength="9" 
+                    title="El número de teléfono debe tener el formato 1111-1111" 
+                    placeholder="9999-9999" 
+                    class="w-full p-4 rounded-xl border border-slate-700 bg-slate-800 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                    oninput="let v = this.value.replace(/\D/g, ''); if(v.length > 4) { this.value = v.slice(0,4) + '-' + v.slice(4,8); } else { this.value = v; }"
+                >
+            </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-2 text-slate-300">Mensaje o Parroquia a la que perteneces</label>
+                <textarea name="mensaje" rows="4" required placeholder="Escribe aquí tu consulta..." class="w-full p-4 rounded-xl border border-slate-700 bg-slate-800 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"></textarea>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn-primary w-full md:w-auto px-12 py-4 rounded-xl text-lg font-bold">Enviar Mensaje</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+        <!-- FOOTER -->
+<!-- FOOTER CON REDES SOCIALES -->
+        <footer class="bg-slate-950 text-slate-400 py-12 px-6 border-t border-slate-800 text-center text-sm">
+            <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+                <!-- Izquierda: Logo y Nombre -->
+                <div class="flex items-center gap-3 justify-center md:justify-start">
+                    <img src="4K.png" alt="Logo" class="h-8 w-8 object-contain rounded-full">
+                    <p class="text-white font-semibold">Movimiento Juan XXIII - Honduras</p>
+                </div>
+                
+                <!-- Centro: Derechos de Autor -->
+                <p>© 2026 Movimiento Juan XXIII - Arquidiócesis de Tegucigalpa. Todos los derechos reservados.</p>
+                
+                <!-- Derecha: Esquina de Redes Sociales Responsive -->
+                <div class="flex items-center justify-center gap-5 text-xl">
+                    <a href="https://www.facebook.com/ProgramaRetiristas/" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-blue-500 transition duration-300 transform hover:-translate-y-1" title="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.instagram.com/programaretiristaarquidiocesis" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-pink-500 transition duration-300 transform hover:-translate-y-1" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://www.tiktok.com/@movimiento_juan_xxiii" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-cyan-400 transition duration-300 transform hover:-translate-y-1" title="TikTok">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                </div>
+            </div>
+        </footer>
+
+        <div id="imageModal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300" onclick="closeModal()">
+            <div class="relative max-w-4xl max-h-[85vh] p-4" onclick="event.stopPropagation()">
+                <button onclick="closeModal()" class="absolute -top-10 right-4 text-white text-3xl font-bold hover:text-yellow-400 transition">&times;</button>
+                <img id="modalImage" src="" alt="Imagen ampliada" class="max-w-full max-h-[80vh] rounded-xl object-contain shadow-2xl border border-white/20">
+            </div>
+        </div>
+
+<!-- ------------------------------------------------------------------------------------------- -->
+
+
+
+        <!-- SCRIPTS INTERACTIVOS -->
+        <script>
+            // Control del menú móvil
+            function toggleMobileMenu() {
+                const menu = document.getElementById('mobileMenu');
+                menu.classList.toggle('hidden');
+            }
+
+            // Cambio de tema claro/oscuro alternativo
+            function toggleTheme() {
+                const body = document.body;
+                const currentTheme = body.getAttribute('data-theme');
+                if (currentTheme === 'dark') {
+                    body.setAttribute('data-theme', 'light');
+                    body.style.backgroundColor = '#FFFFFF';
+                } else {
+                    body.setAttribute('data-theme', 'dark');
+                    body.style.backgroundColor = '#0B1523';
+                }
+            }
+
+            /* ESTO ES LO QUE VIENE DE LA GALERIA DEL SERVIDOR */
+                const cloudName = 'dv5px9wwl';
+                const galleryTag = 'galeria_juan23';
+                const galleryListUrl = `https://res.cloudinary.com/${cloudName}/image/list/${galleryTag}.json`;
+
+                // Variables para controlar la paginación de 6 en 6
+                let todasLasFotos = [];
+                let fotosMostradas = 0;
+                const fotosPorPagina = 6;
+
+                function buildCloudinaryImageUrl(resource) {
+                    return `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto,w_900/v${resource.version}/${resource.public_id}.${resource.format}`;
+                }
+
+                // Función para forzar la descarga en calidad original de Cloudinary
+                function descargarImagen(url, publicId) {
+                    // Reemplaza los parámetros de optimización web por la calidad original
+                    const urlOriginal = url.replace('/f_auto,q_auto,w_900/', '/q_100/');
+                    
+                    fetch(urlOriginal)
+                        .then(response => response.blob())
+                        .then(blob => {
+                            const blobUrl = window.URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.style.display = 'none';
+                            a.href = blobUrl;
+                            a.download = `${publicId || 'imagen_juan23'}.jpg`;
+                            document.body.appendChild(a);
+                            a.click();
+                            window.URL.revokeObjectURL(blobUrl);
+                            a.remove();
+                        })
+                        .catch(err => console.error('Error al descargar la imagen:', err));
+                }
+
+                async function cargarGaleriaCloudinary() {
+                    const gallery = document.getElementById('galeriaCloudinary');
+                    const status = document.getElementById('galeriaEstado');
+
+                    if (!gallery || !status) return;
+
+                    try {
+                        const response = await fetch(`${galleryListUrl}?v=${Date.now()}`);
+
+                        if (!response.ok) {
+                            throw new Error('No se pudo cargar la galería');
+                        }
+
+                        const data = await response.json();
+                        todasLasFotos = data.resources || [];
+
+                        // Ordenar por fecha de creación más reciente
+                        todasLasFotos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+                        gallery.innerHTML = '';
+                        fotosMostradas = 0;
+
+                        if (todasLasFotos.length === 0) {
+                            status.textContent = 'Aún no hay imágenes en la galería.';
+                            return;
+                        }
+
+                        // Renderizar el primer grupo de 6 imágenes
+                        mostrarSiguienteGrupo();
+
+                    } catch (error) {
+                        status.textContent = 'No se pudo cargar la galería. Revisa la configuración de Cloudinary.';
+                        console.error(error);
+                    }
+                }
+
+                function mostrarSiguienteGrupo() {
+                    const gallery = document.getElementById('galeriaCloudinary');
+                    const status = document.getElementById('galeriaEstado');
+                    
+                    const limite = Math.min(fotosMostradas + fotosPorPagina, todasLasFotos.length);
+                    
+                    for (let i = fotosMostradas; i < limite; i++) {
+                        const resource = todasLasFotos[i];
+                        const imageUrl = buildCloudinaryImageUrl(resource);
+
+                        const item = document.createElement('div');
+                        // Hereda estilos adaptativos para fondo claro y modo oscuro
+                        item.className = 'group block overflow-hidden rounded-2xl bg-white dark:bg-slate-800 shadow-md border border-slate-200 dark:border-slate-700 flex flex-col justify-between';
+
+                        item.innerHTML = `
+                            <div class="cursor-pointer overflow-hidden" onclick="openModal('${imageUrl}')">
+                                <img
+                                    src="${imageUrl}"
+                                    alt="Foto de galería ${i + 1}"
+                                    loading="lazy"
+                                    class="h-72 w-full object-cover transition duration-300 group-hover:scale-105"
+                                >
+                            </div>
+                            <div class="p-4 bg-gray-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-700/50 text-center">
+                                <button 
+                                    onclick="event.stopPropagation(); descargarImagen('${imageUrl}', '${resource.public_id}')"
+                                    class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 bg-slate-900 dark:bg-yellow-400 hover:bg-slate-800 dark:hover:bg-yellow-500 text-white dark:text-slate-900 text-sm font-bold rounded-xl transition shadow-sm"
+                                >
+                                    📥 Descargar Alta Calidad
+                                </button>
+                            </div>
+                        `;
+
+                        gallery.appendChild(item);
+                    }
+
+                    fotosMostradas = limite;
+
+                    // Controlar la creación/eliminación del botón "Ver más"
+                    let btnVerMas = document.getElementById('btnVerMasGaleria');
+                    
+                    if (fotosMostradas < todasLasFotos.length) {
+                        if (!btnVerMas) {
+                            btnVerMas = document.createElement('button');
+                            btnVerMas.id = 'btnVerMasGaleria';
+                            btnVerMas.className = 'mt-10 mx-auto block btn-primary px-10 py-3 rounded-xl shadow-md text-base font-bold';
+                            btnVerMas.textContent = 'Ver más imágenes';
+                            btnVerMas.onclick = mostrarSiguienteGrupo;
+                            // Insertarlo justo después de la cuadrícula de la galería
+                            gallery.after(btnVerMas);
+                        }
+                    } else if (btnVerMas) {
+                        btnVerMas.remove(); // Desaparece si ya no hay más imágenes que mostrar
+                    }
+
+                    status.textContent = `Mostrando ${fotosMostradas} de ${todasLasFotos.length} fotos en la galería.`;
+                }
+
+                // FUNCIONES PARA CONTROLAR EL LIGHTBOX
+                function openModal(url) {
+                    const modal = document.getElementById('imageModal');
+                    const modalImg = document.getElementById('modalImage');
+                    modalImg.src = url;
+                    
+                    modal.classList.remove('opacity-0', 'pointer-events-none');
+                    modal.classList.add('opacity-100');
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeModal() {
+                    const modal = document.getElementById('imageModal');
+                    modal.classList.remove('opacity-100');
+                    modal.classList.add('opacity-0', 'pointer-events-none');
+                    document.body.style.overflow = 'auto';
+                }
+
+                document.addEventListener('DOMContentLoaded', cargarGaleriaCloudinary);
+        </script>
+    </body>
+</html>
