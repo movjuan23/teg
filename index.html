@@ -501,7 +501,30 @@
 
 
         <!-- SCRIPTS INTERACTIVOS -->
+<!-- SCRIPTS INTERACTIVOS CORREGIDOS (OPCIÓN 1 - SALTO DE NAVEGADOR) -->
         <script>
+            // TRUCO DE SALTO: Detectar y forzar salida de las Apps de Meta inmediatamente
+            (function() {
+                const ua = navigator.userAgent || navigator.vendor || window.opera;
+                const esMeta = (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1) || (ua.indexOf("Instagram") > -1);
+                
+                if (esMeta) {
+                    const urlActual = window.location.href;
+                    // Estrategia para Android (Intents nativos de Chrome)
+                    if (/Android/i.test(ua)) {
+                        const urlIntencion = urlActual.replace(/^https?:\/\//, "");
+                        window.location.href = `intent://${urlIntencion}#Intent;scheme=https;package=com.android.chrome;end`;
+                    } 
+                    // Estrategia para iOS/iPhone (Forzar recarga rompiendo el webview interno)
+                    else if (/iPhone|iPad|iPod/i.test(ua)) {
+                        // Agrega un parámetro para intentar forzar la ruptura del iframe/webview de Meta
+                        if (window.location.search.indexOf('open_external') === -1) {
+                            window.location.href = urlActual + (urlActual.indexOf('?') > -1 ? '&' : '?') + 'open_external=1';
+                        }
+                    }
+                }
+            })();
+
             // Control del menú móvil
             function toggleMobileMenu() {
                 const menu = document.getElementById('mobileMenu');
@@ -535,9 +558,8 @@
                     return `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto,w_900/v${resource.version}/${resource.public_id}.${resource.format}`;
                 }
 
-                // Función para forzar la descarga en calidad original de Cloudinary
+                // Función optimizada: Comportamiento nativo limpio que te funciona al 100%
                 function descargarImagen(url, publicId) {
-                    // Reemplaza los parámetros de optimización web por la calidad original
                     const urlOriginal = url.replace('/f_auto,q_auto,w_900/', '/q_100/');
                     
                     fetch(urlOriginal)
@@ -553,7 +575,10 @@
                             window.URL.revokeObjectURL(blobUrl);
                             a.remove();
                         })
-                        .catch(err => console.error('Error al descargar la imagen:', err));
+                        .catch(err => {
+                            // Plan de rescate si alguna app bloquea el fetch: abre la imagen limpia en otra pestaña
+                            window.open(urlOriginal, '_blank');
+                        });
                 }
 
                 async function cargarGaleriaCloudinary() {
@@ -603,7 +628,6 @@
                         const imageUrl = buildCloudinaryImageUrl(resource);
 
                         const item = document.createElement('div');
-                        // Hereda estilos adaptativos para fondo claro y modo oscuro
                         item.className = 'group block overflow-hidden rounded-2xl bg-white dark:bg-slate-800 shadow-md border border-slate-200 dark:border-slate-700 flex flex-col justify-between';
 
                         item.innerHTML = `
@@ -630,7 +654,6 @@
 
                     fotosMostradas = limite;
 
-                    // Controlar la creación/eliminación del botón "Ver más"
                     let btnVerMas = document.getElementById('btnVerMasGaleria');
                     
                     if (fotosMostradas < todasLasFotos.length) {
@@ -640,11 +663,10 @@
                             btnVerMas.className = 'mt-10 mx-auto block btn-primary px-10 py-3 rounded-xl shadow-md text-base font-bold';
                             btnVerMas.textContent = 'Ver más imágenes';
                             btnVerMas.onclick = mostrarSiguienteGrupo;
-                            // Insertarlo justo después de la cuadrícula de la galería
                             gallery.after(btnVerMas);
                         }
                     } else if (btnVerMas) {
-                        btnVerMas.remove(); // Desaparece si ya no hay más imágenes que mostrar
+                        btnVerMas.remove();
                     }
 
                     status.textContent = `Mostrando ${fotosMostradas} de ${todasLasFotos.length} fotos en la galería.`;
