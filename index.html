@@ -502,6 +502,7 @@
 
         <!-- SCRIPTS INTERACTIVOS -->
 <!-- SCRIPTS INTERACTIVOS CORREGIDOS -->
+        <!-- SCRIPTS INTERACTIVOS CORREGIDOS (MODAL CON BOTÓN INTEGRADO) -->
         <script>
             // Control del menú móvil
             function toggleMobileMenu() {
@@ -536,39 +537,28 @@
                     return `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto,w_900/v${resource.version}/${resource.public_id}.${resource.format}`;
                 }
 
-                // FUNCIÓN CORREGIDA: Compatible con Facebook, Instagram y navegadores externos
+                // FUNCIÓN DE DESCARGA HABITUAL (Para navegadores externos)
                 function descargarImagen(url, publicId) {
-                    // Reemplaza los parámetros de optimización web por la calidad original
                     const urlOriginal = url.replace('/f_auto,q_auto,w_900/', '/q_100/');
                     
-                    // Detectar navegadores integrados (In-App Browsers) de Facebook o Instagram
-                    const ua = navigator.userAgent || navigator.vendor || window.opera;
-                    const esNavegadorMeta = (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1) || (ua.indexOf("Instagram") > -1);
-
-                    if (esNavegadorMeta) {
-                        // Solución para Facebook/Instagram: Evitamos el uso de Blobs bloqueados
-                        alert("Para guardar esta foto: Mantén presionada la imagen que cargará a continuación y selecciona 'Guardar Imagen'.");
-                        window.open(urlOriginal, '_blank');
-                    } else {
-                        // Descarga automática normal para Chrome, Safari, Brave, etc.
-                        fetch(urlOriginal)
-                            .then(response => response.blob())
-                            .then(blob => {
-                                const blobUrl = window.URL.createObjectURL(blob);
-                                const a = document.createElement('a');
-                                a.style.display = 'none';
-                                a.href = blobUrl;
-                                a.download = `${publicId || 'imagen_juan23'}.jpg`;
-                                document.body.appendChild(a);
-                                a.click();
-                                window.URL.revokeObjectURL(blobUrl);
-                                a.remove();
-                            })
-                            .catch(err => {
-                                // Plan de respaldo si falla el fetch por políticas estrictas
-                                window.open(urlOriginal, '_blank');
-                            });
-                    }
+                    // Comportamiento habitual y nativo que siempre te ha funcionado
+                    fetch(urlOriginal)
+                        .then(response => response.blob())
+                        .then(blob => {
+                            const blobUrl = window.URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.style.display = 'none';
+                            a.href = blobUrl;
+                            a.download = `${publicId || 'imagen_juan23'}.jpg`;
+                            document.body.appendChild(a);
+                            a.click();
+                            window.URL.revokeObjectURL(blobUrl);
+                            a.remove();
+                        })
+                        .catch(err => {
+                            // Si falla por seguridad de la app, abre la URL limpia en otra pestaña
+                            window.open(urlOriginal, '_blank');
+                        });
                 }
 
                 async function cargarGaleriaCloudinary() {
@@ -621,7 +611,7 @@
                         item.className = 'group block overflow-hidden rounded-2xl bg-white dark:bg-slate-800 shadow-md border border-slate-200 dark:border-slate-700 flex flex-col justify-between';
 
                         item.innerHTML = `
-                            <div class="cursor-pointer overflow-hidden" onclick="openModal('${imageUrl}')">
+                            <div class="cursor-pointer overflow-hidden" onclick="openModal('${imageUrl}', '${resource.public_id}')">
                                 <img
                                     src="${imageUrl}"
                                     alt="Foto de galería ${i + 1}"
@@ -662,11 +652,33 @@
                     status.textContent = `Mostrando ${fotosMostradas} de ${todasLasFotos.length} fotos en la galería.`;
                 }
 
-                // FUNCIONES PARA CONTROLAR EL LIGHTBOX
-                function openModal(url) {
+                // FUNCIONES DEL MODAL MEJORADAS CON EL BOTÓN INTEGRADO ABAJO
+                function openModal(url, publicId) {
                     const modal = document.getElementById('imageModal');
                     const modalImg = document.getElementById('modalImage');
-                    modalImg.src = url;
+                    
+                    // Cambiamos a calidad máxima para cuando se agrande la foto
+                    const urlOriginal = url.replace('/f_auto,q_auto,w_900/', '/q_100/');
+                    modalImg.src = urlOriginal;
+                    
+                    // Eliminamos un botón viejo si existía dentro del contenedor del modal
+                    const botonViejo = document.getElementById('btnModalDescargar');
+                    if (botonViejo) botonViejo.remove();
+
+                    // Creamos el mismo botón de descarga de la cuadrícula para ponerlo abajo de la foto ampliada
+                    const btnDescargar = document.createElement('button');
+                    btnDescargar.id = 'btnModalDescargar';
+                    btnDescargar.className = 'mt-4 w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-slate-900 text-base font-bold rounded-xl transition shadow-md';
+                    btnDescargar.innerHTML = '📥 Descargar Alta Calidad';
+                    
+                    // Al darle clic, ejecuta tu descarga habitual
+                    btnDescargar.onclick = function(e) {
+                        e.stopPropagation();
+                        descargarImagen(urlOriginal, publicId);
+                    };
+
+                    // Insertamos el botón justo debajo de la etiqueta de la imagen ampliada
+                    modalImg.after(btnDescargar);
                     
                     modal.classList.remove('opacity-0', 'pointer-events-none');
                     modal.classList.add('opacity-100');
@@ -678,6 +690,10 @@
                     modal.classList.remove('opacity-100');
                     modal.classList.add('opacity-0', 'pointer-events-none');
                     document.body.style.overflow = 'auto';
+                    
+                    // Limpieza del botón al cerrar
+                    const btnDescargar = document.getElementById('btnModalDescargar');
+                    if (btnDescargar) btnDescargar.remove();
                 }
 
                 document.addEventListener('DOMContentLoaded', cargarGaleriaCloudinary);
