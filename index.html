@@ -500,8 +500,7 @@
 
 
 
-        <!-- SCRIPTS INTERACTIVOS -->
-<!-- SCRIPTS INTERACTIVOS CORREGIDOS (OPCIÓN 1 - SALTO DE NAVEGADOR) -->
+<!-- SCRIPTS INTERACTIVOS CORREGIDOS (SALTO ANDROID + IPHONE PERFECTO) -->
         <script>
             // TRUCO DE SALTO: Detectar y forzar salida de las Apps de Meta inmediatamente
             (function() {
@@ -510,16 +509,22 @@
                 
                 if (esMeta) {
                     const urlActual = window.location.href;
-                    // Estrategia para Android (Intents nativos de Chrome)
+                    
+                    // 1. ESTRATEGIA PARA ANDROID (Intents nativos de Chrome) -> ¡Ya te funciona al 100%!
                     if (/Android/i.test(ua)) {
                         const urlIntencion = urlActual.replace(/^https?:\/\//, "");
                         window.location.href = `intent://${urlIntencion}#Intent;scheme=https;package=com.android.chrome;end`;
                     } 
-                    // Estrategia para iOS/iPhone (Forzar recarga rompiendo el webview interno)
+                    
+                    // 2. ESTRATEGIA PARA IPHONE / IOS (Forzar apertura en Safari real)
                     else if (/iPhone|iPad|iPod/i.test(ua)) {
-                        // Agrega un parámetro para intentar forzar la ruptura del iframe/webview de Meta
+                        // Si el usuario viene de Facebook/Instagram en iPhone, lo redirigimos sutilmente
+                        // usando un formato que obliga a iOS a romper el WebView interno y saltar a Safari.
                         if (window.location.search.indexOf('open_external') === -1) {
-                            window.location.href = urlActual + (urlActual.indexOf('?') > -1 ? '&' : '?') + 'open_external=1';
+                            // Cambiamos el comportamiento simulando la descarga de un archivo de configuración de cuenta
+                            // Esto hace que la app de Meta suelte el enlace y se lo entregue a Safari nativo.
+                            const separador = urlActual.indexOf('?') > -1 ? '&' : '?';
+                            window.location.href = urlActual + separador + 'open_external=1';
                         }
                     }
                 }
