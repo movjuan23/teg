@@ -536,67 +536,25 @@
                 }
 
                 // Función para forzar la descarga en calidad original de Cloudinary
-// Función para forzar la descarga o abrir con botón en apps sociales
                 function descargarImagen(url, publicId) {
                     // Reemplaza los parámetros de optimización web por la calidad original
                     const urlOriginal = url.replace('/f_auto,q_auto,w_900/', '/q_100/');
                     
-                    // Detectar si el usuario viene de los navegadores internos de Facebook o Instagram
-                    const ua = navigator.userAgent || navigator.vendor || window.opera;
-                    const esNavegadorMeta = (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1) || (ua.indexOf("Instagram") > -1);
-
-                    if (esNavegadorMeta) {
-                        // Si está en Facebook/Instagram, abrimos una nueva pestaña con la interfaz del botón abajo
-                        const nuevaPestana = window.open();
-                        nuevaPestana.document.write(`
-                            <!DOCTYPE html>
-                            <html lang="es">
-                            <head>
-                                <meta charset="UTF-8">
-                                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                                <title>Descargar Foto - Juan XXIII</title>
-                                <script src="https://cdn.tailwindcss.com"></script>
-                                <style>
-                                    body { background-color: #ffffff; font-family: sans-serif; }
-                                </style>
-                            </head>
-                            <body class="flex flex-col items-center justify-start min-h-screen p-4">
-                                <!-- Contenedor de la Imagen -->
-                                <div class="w-full max-w-xl flex justify-center mb-6">
-                                    <img src="${urlOriginal}" alt="Imagen de Galería" class="max-w-full h-auto rounded-lg shadow-md">
-                                </div>
-                                
-                                <!-- Zona del botón solicitada (Círculo Verde de tu captura) -->
-                                <div class="w-full max-w-xs text-center">
-                                    <a href="${urlOriginal}" download="${publicId || 'imagen_juan23'}.jpg" class="w-full inline-flex items-center justify-center gap-2 px-6 py-4 bg-[#FFD700] text-black font-bold text-lg rounded-xl border-3 border-[#1E4D8B] shadow-lg transition transform active:scale-95">
-                                        📥 Descargar Alta Calidad
-                                    </a>
-                                    <p class="text-xs text-gray-500 mt-3">Si el botón no inicia la descarga automática en tu app, mantén presionada la imagen de arriba para guardarla en tus fotos.</p>
-                                </div>
-                            </body>
-                            </html>
-                        `);
-                        nuevaPestana.document.close();
-                    } else {
-                        // Comportamiento habitual y limpio para navegadores externos (Chrome, Safari, Brave)
-                        fetch(urlOriginal)
-                            .then(response => response.blob())
-                            .then(blob => {
-                                const blobUrl = window.URL.createObjectURL(blob);
-                                const a = document.createElement('a');
-                                a.style.display = 'none';
-                                a.href = blobUrl;
-                                a.download = `${publicId || 'imagen_juan23'}.jpg`;
-                                document.body.appendChild(a);
-                                a.click();
-                                window.URL.revokeObjectURL(blobUrl);
-                                a.remove();
-                            })
-                            .catch(err => {
-                                window.open(urlOriginal, '_blank');
-                            });
-                    }
-                } 
+                    fetch(urlOriginal)
+                        .then(response => response.blob())
+                        .then(blob => {
+                            const blobUrl = window.URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.style.display = 'none';
+                            a.href = blobUrl;
+                            a.download = `${publicId || 'imagen_juan23'}.jpg`;
+                            document.body.appendChild(a);
+                            a.click();
+                            window.URL.revokeObjectURL(blobUrl);
+                            a.remove();
+                        })
+                        .catch(err => console.error('Error al descargar la imagen:', err));
+                }
 
                 async function cargarGaleriaCloudinary() {
                     const gallery = document.getElementById('galeriaCloudinary');
