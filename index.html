@@ -431,8 +431,8 @@
 
             <div class="grid md:grid-cols-2 gap-6">
                 <div>
-                    <label class="block text-sm font-medium mb-2 text-slate-300">Nombre y apellido </label>
-                    <input type="text" name="nombre" required placeholder="Juan Pérez" class="w-full p-4 rounded-xl border border-slate-700 bg-slate-800 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                    <label class="block text-sm font-medium mb-2 text-slate-300">Nombre Completo</label>
+                    <input type="text" name="nombre" required placeholder="Ej. Juan Pérez" class="w-full p-4 rounded-xl border border-slate-700 bg-slate-800 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400">
                 </div>
             <div>
                 <label class="block text-sm font-medium mb-2 text-slate-300">Teléfono (8 dígitos)</label>
@@ -444,7 +444,7 @@
                     maxlength="9" 
                     minlength="9" 
                     title="El número de teléfono debe tener el formato 1111-1111" 
-                    placeholder="9091-9293" 
+                    placeholder="9999-9999" 
                     class="w-full p-4 rounded-xl border border-slate-700 bg-slate-800 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
                     oninput="let v = this.value.replace(/\D/g, ''); if(v.length > 4) { this.value = v.slice(0,4) + '-' + v.slice(4,8); } else { this.value = v; }"
                 >
@@ -501,6 +501,7 @@
 
 
         <!-- SCRIPTS INTERACTIVOS -->
+<!-- SCRIPTS INTERACTIVOS CORREGIDOS -->
         <script>
             // Control del menú móvil
             function toggleMobileMenu() {
@@ -535,25 +536,39 @@
                     return `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto,w_900/v${resource.version}/${resource.public_id}.${resource.format}`;
                 }
 
-                // Función para forzar la descarga en calidad original de Cloudinary
+                // FUNCIÓN CORREGIDA: Compatible con Facebook, Instagram y navegadores externos
                 function descargarImagen(url, publicId) {
                     // Reemplaza los parámetros de optimización web por la calidad original
                     const urlOriginal = url.replace('/f_auto,q_auto,w_900/', '/q_100/');
                     
-                    fetch(urlOriginal)
-                        .then(response => response.blob())
-                        .then(blob => {
-                            const blobUrl = window.URL.createObjectURL(blob);
-                            const a = document.createElement('a');
-                            a.style.display = 'none';
-                            a.href = blobUrl;
-                            a.download = `${publicId || 'imagen_juan23'}.jpg`;
-                            document.body.appendChild(a);
-                            a.click();
-                            window.URL.revokeObjectURL(blobUrl);
-                            a.remove();
-                        })
-                        .catch(err => console.error('Error al descargar la imagen:', err));
+                    // Detectar navegadores integrados (In-App Browsers) de Facebook o Instagram
+                    const ua = navigator.userAgent || navigator.vendor || window.opera;
+                    const esNavegadorMeta = (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1) || (ua.indexOf("Instagram") > -1);
+
+                    if (esNavegadorMeta) {
+                        // Solución para Facebook/Instagram: Evitamos el uso de Blobs bloqueados
+                        alert("Para guardar esta foto: Mantén presionada la imagen que cargará a continuación y selecciona 'Guardar Imagen'.");
+                        window.open(urlOriginal, '_blank');
+                    } else {
+                        // Descarga automática normal para Chrome, Safari, Brave, etc.
+                        fetch(urlOriginal)
+                            .then(response => response.blob())
+                            .then(blob => {
+                                const blobUrl = window.URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.style.display = 'none';
+                                a.href = blobUrl;
+                                a.download = `${publicId || 'imagen_juan23'}.jpg`;
+                                document.body.appendChild(a);
+                                a.click();
+                                window.URL.revokeObjectURL(blobUrl);
+                                a.remove();
+                            })
+                            .catch(err => {
+                                // Plan de respaldo si falla el fetch por políticas estrictas
+                                window.open(urlOriginal, '_blank');
+                            });
+                    }
                 }
 
                 async function cargarGaleriaCloudinary() {
@@ -603,7 +618,6 @@
                         const imageUrl = buildCloudinaryImageUrl(resource);
 
                         const item = document.createElement('div');
-                        // Hereda estilos adaptativos para fondo claro y modo oscuro
                         item.className = 'group block overflow-hidden rounded-2xl bg-white dark:bg-slate-800 shadow-md border border-slate-200 dark:border-slate-700 flex flex-col justify-between';
 
                         item.innerHTML = `
@@ -630,7 +644,6 @@
 
                     fotosMostradas = limite;
 
-                    // Controlar la creación/eliminación del botón "Ver más"
                     let btnVerMas = document.getElementById('btnVerMasGaleria');
                     
                     if (fotosMostradas < todasLasFotos.length) {
@@ -640,11 +653,10 @@
                             btnVerMas.className = 'mt-10 mx-auto block btn-primary px-10 py-3 rounded-xl shadow-md text-base font-bold';
                             btnVerMas.textContent = 'Ver más imágenes';
                             btnVerMas.onclick = mostrarSiguienteGrupo;
-                            // Insertarlo justo después de la cuadrícula de la galería
                             gallery.after(btnVerMas);
                         }
                     } else if (btnVerMas) {
-                        btnVerMas.remove(); // Desaparece si ya no hay más imágenes que mostrar
+                        btnVerMas.remove();
                     }
 
                     status.textContent = `Mostrando ${fotosMostradas} de ${todasLasFotos.length} fotos en la galería.`;
