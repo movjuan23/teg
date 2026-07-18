@@ -501,8 +501,6 @@
 
 
         <!-- SCRIPTS INTERACTIVOS -->
-<!-- SCRIPTS INTERACTIVOS CORREGIDOS -->
-        <!-- SCRIPTS INTERACTIVOS CORREGIDOS (MODAL CON BOTÓN INTEGRADO) -->
         <script>
             // Control del menú móvil
             function toggleMobileMenu() {
@@ -537,29 +535,68 @@
                     return `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto,w_900/v${resource.version}/${resource.public_id}.${resource.format}`;
                 }
 
-                // FUNCIÓN DE DESCARGA HABITUAL (Para navegadores externos)
+                // Función para forzar la descarga en calidad original de Cloudinary
+// Función para forzar la descarga o abrir con botón en apps sociales
                 function descargarImagen(url, publicId) {
+                    // Reemplaza los parámetros de optimización web por la calidad original
                     const urlOriginal = url.replace('/f_auto,q_auto,w_900/', '/q_100/');
                     
-                    // Comportamiento habitual y nativo que siempre te ha funcionado
-                    fetch(urlOriginal)
-                        .then(response => response.blob())
-                        .then(blob => {
-                            const blobUrl = window.URL.createObjectURL(blob);
-                            const a = document.createElement('a');
-                            a.style.display = 'none';
-                            a.href = blobUrl;
-                            a.download = `${publicId || 'imagen_juan23'}.jpg`;
-                            document.body.appendChild(a);
-                            a.click();
-                            window.URL.revokeObjectURL(blobUrl);
-                            a.remove();
-                        })
-                        .catch(err => {
-                            // Si falla por seguridad de la app, abre la URL limpia en otra pestaña
-                            window.open(urlOriginal, '_blank');
-                        });
-                }
+                    // Detectar si el usuario viene de los navegadores internos de Facebook o Instagram
+                    const ua = navigator.userAgent || navigator.vendor || window.opera;
+                    const esNavegadorMeta = (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1) || (ua.indexOf("Instagram") > -1);
+
+                    if (esNavegadorMeta) {
+                        // Si está en Facebook/Instagram, abrimos una nueva pestaña con la interfaz del botón abajo
+                        const nuevaPestana = window.open();
+                        nuevaPestana.document.write(`
+                            <!DOCTYPE html>
+                            <html lang="es">
+                            <head>
+                                <meta charset="UTF-8">
+                                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                <title>Descargar Foto - Juan XXIII</title>
+                                <script src="https://cdn.tailwindcss.com"></script>
+                                <style>
+                                    body { background-color: #ffffff; font-family: sans-serif; }
+                                </style>
+                            </head>
+                            <body class="flex flex-col items-center justify-start min-h-screen p-4">
+                                <!-- Contenedor de la Imagen -->
+                                <div class="w-full max-w-xl flex justify-center mb-6">
+                                    <img src="${urlOriginal}" alt="Imagen de Galería" class="max-w-full h-auto rounded-lg shadow-md">
+                                </div>
+                                
+                                <!-- Zona del botón solicitada (Círculo Verde de tu captura) -->
+                                <div class="w-full max-w-xs text-center">
+                                    <a href="${urlOriginal}" download="${publicId || 'imagen_juan23'}.jpg" class="w-full inline-flex items-center justify-center gap-2 px-6 py-4 bg-[#FFD700] text-black font-bold text-lg rounded-xl border-3 border-[#1E4D8B] shadow-lg transition transform active:scale-95">
+                                        📥 Descargar Alta Calidad
+                                    </a>
+                                    <p class="text-xs text-gray-500 mt-3">Si el botón no inicia la descarga automática en tu app, mantén presionada la imagen de arriba para guardarla en tus fotos.</p>
+                                </div>
+                            </body>
+                            </html>
+                        `);
+                        nuevaPestana.document.close();
+                    } else {
+                        // Comportamiento habitual y limpio para navegadores externos (Chrome, Safari, Brave)
+                        fetch(urlOriginal)
+                            .then(response => response.blob())
+                            .then(blob => {
+                                const blobUrl = window.URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.style.display = 'none';
+                                a.href = blobUrl;
+                                a.download = `${publicId || 'imagen_juan23'}.jpg`;
+                                document.body.appendChild(a);
+                                a.click();
+                                window.URL.revokeObjectURL(blobUrl);
+                                a.remove();
+                            })
+                            .catch(err => {
+                                window.open(urlOriginal, '_blank');
+                            });
+                    }
+                } 
 
                 async function cargarGaleriaCloudinary() {
                     const gallery = document.getElementById('galeriaCloudinary');
@@ -608,10 +645,11 @@
                         const imageUrl = buildCloudinaryImageUrl(resource);
 
                         const item = document.createElement('div');
+                        // Hereda estilos adaptativos para fondo claro y modo oscuro
                         item.className = 'group block overflow-hidden rounded-2xl bg-white dark:bg-slate-800 shadow-md border border-slate-200 dark:border-slate-700 flex flex-col justify-between';
 
                         item.innerHTML = `
-                            <div class="cursor-pointer overflow-hidden" onclick="openModal('${imageUrl}', '${resource.public_id}')">
+                            <div class="cursor-pointer overflow-hidden" onclick="openModal('${imageUrl}')">
                                 <img
                                     src="${imageUrl}"
                                     alt="Foto de galería ${i + 1}"
@@ -634,6 +672,7 @@
 
                     fotosMostradas = limite;
 
+                    // Controlar la creación/eliminación del botón "Ver más"
                     let btnVerMas = document.getElementById('btnVerMasGaleria');
                     
                     if (fotosMostradas < todasLasFotos.length) {
@@ -643,42 +682,21 @@
                             btnVerMas.className = 'mt-10 mx-auto block btn-primary px-10 py-3 rounded-xl shadow-md text-base font-bold';
                             btnVerMas.textContent = 'Ver más imágenes';
                             btnVerMas.onclick = mostrarSiguienteGrupo;
+                            // Insertarlo justo después de la cuadrícula de la galería
                             gallery.after(btnVerMas);
                         }
                     } else if (btnVerMas) {
-                        btnVerMas.remove();
+                        btnVerMas.remove(); // Desaparece si ya no hay más imágenes que mostrar
                     }
 
                     status.textContent = `Mostrando ${fotosMostradas} de ${todasLasFotos.length} fotos en la galería.`;
                 }
 
-                // FUNCIONES DEL MODAL MEJORADAS CON EL BOTÓN INTEGRADO ABAJO
-                function openModal(url, publicId) {
+                // FUNCIONES PARA CONTROLAR EL LIGHTBOX
+                function openModal(url) {
                     const modal = document.getElementById('imageModal');
                     const modalImg = document.getElementById('modalImage');
-                    
-                    // Cambiamos a calidad máxima para cuando se agrande la foto
-                    const urlOriginal = url.replace('/f_auto,q_auto,w_900/', '/q_100/');
-                    modalImg.src = urlOriginal;
-                    
-                    // Eliminamos un botón viejo si existía dentro del contenedor del modal
-                    const botonViejo = document.getElementById('btnModalDescargar');
-                    if (botonViejo) botonViejo.remove();
-
-                    // Creamos el mismo botón de descarga de la cuadrícula para ponerlo abajo de la foto ampliada
-                    const btnDescargar = document.createElement('button');
-                    btnDescargar.id = 'btnModalDescargar';
-                    btnDescargar.className = 'mt-4 w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-slate-900 text-base font-bold rounded-xl transition shadow-md';
-                    btnDescargar.innerHTML = '📥 Descargar Alta Calidad';
-                    
-                    // Al darle clic, ejecuta tu descarga habitual
-                    btnDescargar.onclick = function(e) {
-                        e.stopPropagation();
-                        descargarImagen(urlOriginal, publicId);
-                    };
-
-                    // Insertamos el botón justo debajo de la etiqueta de la imagen ampliada
-                    modalImg.after(btnDescargar);
+                    modalImg.src = url;
                     
                     modal.classList.remove('opacity-0', 'pointer-events-none');
                     modal.classList.add('opacity-100');
@@ -690,10 +708,6 @@
                     modal.classList.remove('opacity-100');
                     modal.classList.add('opacity-0', 'pointer-events-none');
                     document.body.style.overflow = 'auto';
-                    
-                    // Limpieza del botón al cerrar
-                    const btnDescargar = document.getElementById('btnModalDescargar');
-                    if (btnDescargar) btnDescargar.remove();
                 }
 
                 document.addEventListener('DOMContentLoaded', cargarGaleriaCloudinary);
