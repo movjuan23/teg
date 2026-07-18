@@ -500,36 +500,8 @@
 
 
 
-<!-- SCRIPTS INTERACTIVOS CORREGIDOS (SALTO ANDROID + IPHONE PERFECTO) -->
+        <!-- SCRIPTS INTERACTIVOS -->
         <script>
-            // TRUCO DE SALTO: Detectar y forzar salida de las Apps de Meta inmediatamente
-            (function() {
-                const ua = navigator.userAgent || navigator.vendor || window.opera;
-                const esMeta = (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1) || (ua.indexOf("Instagram") > -1);
-                
-                if (esMeta) {
-                    const urlActual = window.location.href;
-                    
-                    // 1. ESTRATEGIA PARA ANDROID (Intents nativos de Chrome) -> ¡Ya te funciona al 100%!
-                    if (/Android/i.test(ua)) {
-                        const urlIntencion = urlActual.replace(/^https?:\/\//, "");
-                        window.location.href = `intent://${urlIntencion}#Intent;scheme=https;package=com.android.chrome;end`;
-                    } 
-                    
-                    // 2. ESTRATEGIA PARA IPHONE / IOS (Forzar apertura en Safari real)
-                    else if (/iPhone|iPad|iPod/i.test(ua)) {
-                        // Si el usuario viene de Facebook/Instagram en iPhone, lo redirigimos sutilmente
-                        // usando un formato que obliga a iOS a romper el WebView interno y saltar a Safari.
-                        if (window.location.search.indexOf('open_external') === -1) {
-                            // Cambiamos el comportamiento simulando la descarga de un archivo de configuración de cuenta
-                            // Esto hace que la app de Meta suelte el enlace y se lo entregue a Safari nativo.
-                            const separador = urlActual.indexOf('?') > -1 ? '&' : '?';
-                            window.location.href = urlActual + separador + 'open_external=1';
-                        }
-                    }
-                }
-            })();
-
             // Control del menú móvil
             function toggleMobileMenu() {
                 const menu = document.getElementById('mobileMenu');
@@ -563,43 +535,25 @@
                     return `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto,w_900/v${resource.version}/${resource.public_id}.${resource.format}`;
                 }
 
-                // Función optimizada: Comportamiento nativo limpio que te funciona al 100%
-// FUNCIÓN DE DESCARGA CONFIGURADA PARA NAVEGADORES EXTERNOS E INTERNOS DE IPHONE
+                // Función para forzar la descarga en calidad original de Cloudinary
                 function descargarImagen(url, publicId) {
-                    // Obtenemos la URL en máxima calidad sin optimizaciones web
+                    // Reemplaza los parámetros de optimización web por la calidad original
                     const urlOriginal = url.replace('/f_auto,q_auto,w_900/', '/q_100/');
                     
-                    // Detectar el navegador interno de Facebook / Instagram y el sistema operativo
-                    const ua = navigator.userAgent || navigator.vendor || window.opera;
-                    const esNavegadorMeta = (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1) || (ua.indexOf("Instagram") > -1);
-                    const esIphone = /iPhone|iPad|iPod/i.test(ua);
-
-                    // SI ES IPHONE Y ESTÁ DENTRO DE FB/IG: Evitamos el 'blob:' que lo rompe todo
-                    if (esNavegadorMeta && esIphone) {
-                        // Abrimos la URL limpia de Cloudinary. Al no llevar 'blob:', cargará de forma nativa
-                        // permitiendo que el usuario guarde la foto dejando el dedo presionado.
-                        window.open(urlOriginal, '_blank');
-                    } 
-                    // COMPORTAMIENTO HABITUAL: Para Android (que ya salta a Chrome) y navegadores limpios
-                    else {
-                        fetch(urlOriginal)
-                            .then(response => response.blob())
-                            .then(blob => {
-                                const blobUrl = window.URL.createObjectURL(blob);
-                                const a = document.createElement('a');
-                                a.style.display = 'none';
-                                a.href = blobUrl;
-                                a.download = `${publicId || 'imagen_juan23'}.jpg`;
-                                document.body.appendChild(a);
-                                a.click();
-                                window.URL.revokeObjectURL(blobUrl);
-                                a.remove();
-                            })
-                            .catch(err => {
-                                // Si falla el fetch por cualquier otra restricción, abre la URL limpia
-                                window.open(urlOriginal, '_blank');
-                            });
-                    }
+                    fetch(urlOriginal)
+                        .then(response => response.blob())
+                        .then(blob => {
+                            const blobUrl = window.URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.style.display = 'none';
+                            a.href = blobUrl;
+                            a.download = `${publicId || 'imagen_juan23'}.jpg`;
+                            document.body.appendChild(a);
+                            a.click();
+                            window.URL.revokeObjectURL(blobUrl);
+                            a.remove();
+                        })
+                        .catch(err => console.error('Error al descargar la imagen:', err));
                 }
 
                 async function cargarGaleriaCloudinary() {
@@ -649,6 +603,7 @@
                         const imageUrl = buildCloudinaryImageUrl(resource);
 
                         const item = document.createElement('div');
+                        // Hereda estilos adaptativos para fondo claro y modo oscuro
                         item.className = 'group block overflow-hidden rounded-2xl bg-white dark:bg-slate-800 shadow-md border border-slate-200 dark:border-slate-700 flex flex-col justify-between';
 
                         item.innerHTML = `
@@ -675,6 +630,7 @@
 
                     fotosMostradas = limite;
 
+                    // Controlar la creación/eliminación del botón "Ver más"
                     let btnVerMas = document.getElementById('btnVerMasGaleria');
                     
                     if (fotosMostradas < todasLasFotos.length) {
@@ -684,10 +640,11 @@
                             btnVerMas.className = 'mt-10 mx-auto block btn-primary px-10 py-3 rounded-xl shadow-md text-base font-bold';
                             btnVerMas.textContent = 'Ver más imágenes';
                             btnVerMas.onclick = mostrarSiguienteGrupo;
+                            // Insertarlo justo después de la cuadrícula de la galería
                             gallery.after(btnVerMas);
                         }
                     } else if (btnVerMas) {
-                        btnVerMas.remove();
+                        btnVerMas.remove(); // Desaparece si ya no hay más imágenes que mostrar
                     }
 
                     status.textContent = `Mostrando ${fotosMostradas} de ${todasLasFotos.length} fotos en la galería.`;
