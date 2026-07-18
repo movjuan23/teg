@@ -564,26 +564,42 @@
                 }
 
                 // Función optimizada: Comportamiento nativo limpio que te funciona al 100%
+// FUNCIÓN DE DESCARGA CONFIGURADA PARA NAVEGADORES EXTERNOS E INTERNOS DE IPHONE
                 function descargarImagen(url, publicId) {
+                    // Obtenemos la URL en máxima calidad sin optimizaciones web
                     const urlOriginal = url.replace('/f_auto,q_auto,w_900/', '/q_100/');
                     
-                    fetch(urlOriginal)
-                        .then(response => response.blob())
-                        .then(blob => {
-                            const blobUrl = window.URL.createObjectURL(blob);
-                            const a = document.createElement('a');
-                            a.style.display = 'none';
-                            a.href = blobUrl;
-                            a.download = `${publicId || 'imagen_juan23'}.jpg`;
-                            document.body.appendChild(a);
-                            a.click();
-                            window.URL.revokeObjectURL(blobUrl);
-                            a.remove();
-                        })
-                        .catch(err => {
-                            // Plan de rescate si alguna app bloquea el fetch: abre la imagen limpia en otra pestaña
-                            window.open(urlOriginal, '_blank');
-                        });
+                    // Detectar el navegador interno de Facebook / Instagram y el sistema operativo
+                    const ua = navigator.userAgent || navigator.vendor || window.opera;
+                    const esNavegadorMeta = (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1) || (ua.indexOf("Instagram") > -1);
+                    const esIphone = /iPhone|iPad|iPod/i.test(ua);
+
+                    // SI ES IPHONE Y ESTÁ DENTRO DE FB/IG: Evitamos el 'blob:' que lo rompe todo
+                    if (esNavegadorMeta && esIphone) {
+                        // Abrimos la URL limpia de Cloudinary. Al no llevar 'blob:', cargará de forma nativa
+                        // permitiendo que el usuario guarde la foto dejando el dedo presionado.
+                        window.open(urlOriginal, '_blank');
+                    } 
+                    // COMPORTAMIENTO HABITUAL: Para Android (que ya salta a Chrome) y navegadores limpios
+                    else {
+                        fetch(urlOriginal)
+                            .then(response => response.blob())
+                            .then(blob => {
+                                const blobUrl = window.URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.style.display = 'none';
+                                a.href = blobUrl;
+                                a.download = `${publicId || 'imagen_juan23'}.jpg`;
+                                document.body.appendChild(a);
+                                a.click();
+                                window.URL.revokeObjectURL(blobUrl);
+                                a.remove();
+                            })
+                            .catch(err => {
+                                // Si falla el fetch por cualquier otra restricción, abre la URL limpia
+                                window.open(urlOriginal, '_blank');
+                            });
+                    }
                 }
 
                 async function cargarGaleriaCloudinary() {
