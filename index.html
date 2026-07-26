@@ -192,56 +192,52 @@
           animation: float 4s ease-in-out infinite;
         }
 
-    /* ==========================================================================
-    CORRECCIÓN MODO OSCURO PARA PILARES, RETIROS Y GALERÍA
+/* ==========================================================================
+    CORRECCIÓN MODO OSCURO (FONDOS Y TEXTOS DENTRO DE CARDS)
     ========================================================================== */
     [data-theme="dark"] #pilares, 
     [data-theme="dark"] #retiros, 
-    [data-theme="dark"] #galeria {
-    background-color: var(--bg-secondary) !important; /* Fondo azul oscuro/grisáceo */
+    [data-theme="dark"] #galeria,
+    [data-theme="dark"] #publicaciones {
+      background-color: var(--bg-secondary) !important; /* Fondo de la sección en azul oscuro */
     }
 
-    /* Forzar títulos principales a blanco */
-    [data-theme="dark"] #pilares h2, 
-    [data-theme="dark"] #retiros h2, 
-    [data-theme="dark"] #galeria h2,
-    [data-theme="dark"] #pilares h3,
-    [data-theme="dark"] #retiros h3 {
-    color: #FFFFFF !important;
+    /* Títulos de las secciones principales (fuerade las cards) a blanco */
+    [data-theme="dark"] #pilares > div > div > h2, 
+    [data-theme="dark"] #retiros > div > div > h2, 
+    [data-theme="dark"] #galeria > div > div > h2,
+    [data-theme="dark"] #publicaciones > div > div > h2 {
+      color: #FFFFFF !important;
     }
 
-    /* Forzar textos descriptivos/secundarios a gris claro */
-    [data-theme="dark"] #pilares p, 
-    [data-theme="dark"] #retiros p, 
-    [data-theme="dark"] #galeria p {
-    color: #CBD5E1 !important;
+    /* Textos subtítulos de las secciones a gris claro */
+    [data-theme="dark"] #pilares > div > div > p, 
+    [data-theme="dark"] #retiros > div > div > p, 
+    [data-theme="dark"] #galeria > div > div > p,
+    [data-theme="dark"] #publicaciones > div > div > p {
+      color: #CBD5E1 !important;
     }
 
-    /* Adaptación de las tarjetas de los Pilares */
-    [data-theme="dark"] .pillar-card {
-    background-color: var(--bg-tertiary) !important;
-    border-color: var(--border-color) !important;
+    /* TEXTOS DENTRO DE LAS CARDS DE PILARES (Garantiza letras oscuras sobre fondo claro) */
+    [data-theme="dark"] .pillar-card h3 {
+      color: #0F172A !important; /* Título en oscuro */
+    }
+    [data-theme="dark"] .pillar-card p {
+      color: #334155 !important; /* Texto en gris oscuro legible */
     }
 
-    /* Adaptación de las tarjetas de los Retiros */
-    [data-theme="dark"] #retiros .border-2 {
-    background-color: var(--bg-tertiary) !important;
-    border-color: var(--bg-tertiary) !important;
+    /* TEXTOS DENTRO DE LAS CARDS DE RETIROS Y PUBLICACIONES */
+    [data-theme="dark"] #retiros .border-2 h3,
+    [data-theme="dark"] #publicaciones .border-2 p {
+      color: #0F172A !important;
     }
-    [data-theme="dark"] #retiros .border-2:hover {
-    border-color: var(--border-color) !important;
-    }
-
-    /* Adaptación de las tarjetas dinámicas de la Galería */
-    [data-theme="dark"] #galeriaCloudinary a {
-    background-color: var(--bg-tertiary) !important;
-    border-color: rgba(255, 215, 0, 0.2) !important;
-    }
-
+    [data-theme="dark"] #retiros .border-2 p {
+      color: #334155 !important;
+    }      
     </style>        
 </head>
 
-    <!-- TODO EL CONTENIDO HTML Y SCRITP -->
+    //TODO EL CONTENIDO HTML Y SCRITP 
     <body>
         <!-- MENÚ DE NAVEGACIÓN -->
         <nav class="glass-strong fixed top-0 left-0 w-full z-50 px-6 py-4 flex items-center justify-between">
@@ -259,6 +255,7 @@
             <div class="hidden md:flex items-center gap-8">
                 <a href="#inicio" class="nav-link">Inicio</a>
                 <a href="#pilares" class="nav-link">Pilares</a>
+                <a href="#publicaciones" class="nav-link">Recientes</a>
                 <a href="#retiros" class="nav-link">Retiros</a>
                 <a href="#galeria" class="nav-link">Galería</a>
                 <a href="#contacto" class="nav-link">Contacto</a>
@@ -279,6 +276,7 @@
             <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 text-white text-3xl">✕</button>
             <a href="#inicio" onclick="toggleMobileMenu()" class="text-white font-bold hover:text-yellow-300">Inicio</a>
             <a href="#pilares" onclick="toggleMobileMenu()" class="text-white font-bold hover:text-yellow-300">Pilares</a>
+            <a href="#publicaciones" onclick="toggleMobileMenu()" class="text-white font-bold hover:text-yellow-300">Recientes</a>
             <a href="#retiros" onclick="toggleMobileMenu()" class="text-white font-bold hover:text-yellow-300">Retiros</a>
             <a href="#galeria" onclick="toggleMobileMenu()" class="text-white font-bold hover:text-yellow-300">Galería</a>
             <a href="#contacto" onclick="toggleMobileMenu()" class="text-white font-bold hover:text-yellow-300">Contacto</a>
@@ -340,70 +338,53 @@
             </div>
         </section>
 
-
-
-
-
-
-
-
-
-
-
-
-<!-- SECCIÓN PUBLICACIONES DESTACADAS -->
-<section id="publicaciones" class="py-12 px-6">
-    <div class="max-w-6xl mx-auto">
-        
-        <!-- ENCABEZADO IDÉNTICO A LAS DEMÁS SECCIONES -->
-        <div class="text-center max-w-2xl mx-auto mb-12">
-            <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Nuestras Publicaciones</h2>
-            <p class="text-slate-600">Haz clic en cualquier imagen para ver la publicación completa en Facebook.</p>
-        </div>
-
-        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            
-            <!-- Publicación 1 -->
-            <a href="https://www.facebook.com/photo/?fbid=1002732825971020&set=a.169974709246840" target="_blank" rel="noopener noreferrer" class="group block overflow-hidden rounded-2xl bg-white dark:bg-slate-800 shadow-md border-2 border-slate-200 dark:border-slate-700 hover:border-[#1E4D8B] dark:hover:border-yellow-400 transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between">
-                <div class="overflow-hidden relative">
-                    <img src="1.jpg" alt="Publicación Facebook Juan XXIII" class="w-full h-64 md:h-72 object-cover group-hover:scale-105 transition duration-300">
-                    <span class="absolute top-3 right-3 bg-[#1877F2] text-white px-3 py-1 rounded-full text-xs font-bold shadow-md flex items-center gap-1.5">
-                        <i class="fab fa-facebook-f"></i> Facebook
-                    </span>
+        <!-- SECCIÓN PUBLICACIONES -->
+        <section id="publicaciones" class="py-24 px-6 bg-white">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center max-w-2xl mx-auto mb-16">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Nuestras Publicaciones</h2>
+                    <p class="text-slate-600">Haz clic en cualquier tarjeta para ver la publicación completa en Facebook.</p>
                 </div>
-                <div class="p-4 bg-slate-900 text-center">
-                    <p class="font-bold text-white text-base group-hover:text-yellow-400 transition flex items-center justify-center gap-2">
-                        Ver publicación en Facebook <i class="fas fa-link text-xs"></i>
-                    </p>
+
+                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+
+                    <!-- Publicación 1 -->
+                    <a href="https://www.facebook.com/photo/?fbid=1002732825971020&set=a.169974709246840" target="_blank" rel="noopener noreferrer" class="border-2 border-slate-200 rounded-2xl bg-slate-50 flex flex-col justify-between hover:border-[#1E4D8B] transition overflow-hidden group">
+                        <div>
+                            <div class="overflow-hidden relative">
+                                <img src="1.jpg" alt="Publicación Facebook" class="w-full h-64 md:h-72 object-cover group-hover:scale-105 transition duration-300">
+                                <span class="absolute top-3 right-3 bg-[#1877F2] text-white px-3 py-1 rounded-full text-xs font-bold shadow-md flex items-center gap-1.5">
+                                    <i class="fab fa-facebook-f"></i> Facebook
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-4 text-center border-t border-slate-200">
+                            <p class="font-bold text-slate-900 text-base group-hover:text-[#1E4D8B] transition flex items-center justify-center gap-2">
+                                Ver publicación en Facebook <i class="fas fa-external-link-alt text-xs"></i>
+                            </p>
+                        </div>
+                    </a>
+
+                    <!-- Publicación 2 -->
+                    <a href="https://www.facebook.com/photo/?fbid=998808979696738&set=a.169974709246840" target="_blank" rel="noopener noreferrer" class="border-2 border-slate-200 rounded-2xl bg-slate-50 flex flex-col justify-between hover:border-[#1E4D8B] transition overflow-hidden group">
+                        <div>
+                            <div class="overflow-hidden relative">
+                                <img src="2.jpg" alt="Publicación Facebook" class="w-full h-64 md:h-72 object-cover group-hover:scale-105 transition duration-300">
+                                <span class="absolute top-3 right-3 bg-[#1877F2] text-white px-3 py-1 rounded-full text-xs font-bold shadow-md flex items-center gap-1.5">
+                                    <i class="fab fa-facebook-f"></i> Facebook
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-4 text-center border-t border-slate-200">
+                            <p class="font-bold text-slate-900 text-base group-hover:text-[#1E4D8B] transition flex items-center justify-center gap-2">
+                                Ver publicación en Facebook <i class="fas fa-external-link-alt text-xs"></i>
+                            </p>
+                        </div>
+                    </a>
+
                 </div>
-            </a>
-
-            <!-- Publicación 2 -->
-            <a href="https://www.facebook.com/photo/?fbid=998808979696738&set=a.169974709246840" target="_blank" rel="noopener noreferrer" class="group block overflow-hidden rounded-2xl bg-white dark:bg-slate-800 shadow-md border-2 border-slate-200 dark:border-slate-700 hover:border-[#1E4D8B] dark:hover:border-yellow-400 transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between">
-                <div class="overflow-hidden relative">
-                    <img src="2.jpg" alt="Publicación Facebook Juan XXIII" class="w-full h-64 md:h-72 object-cover group-hover:scale-105 transition duration-300">
-                    <span class="absolute top-3 right-3 bg-[#1877F2] text-white px-3 py-1 rounded-full text-xs font-bold shadow-md flex items-center gap-1.5">
-                        <i class="fab fa-facebook-f"></i> Facebook
-                    </span>
-                </div>
-                <div class="p-4 bg-slate-900 text-center">
-                    <p class="font-bold text-white text-base group-hover:text-yellow-400 transition flex items-center justify-center gap-2">
-                        Ver publicación en Facebook <i class="fas fa-link text-xs"></i>
-                    </p>
-                </div>
-            </a>
-
-        </div>
-    </div>
-</section>
-
-
-
-
-
-
-
-
+            </div>
+        </section>
 
 
 
@@ -418,19 +399,6 @@
                 </div>
 
                 <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-
-                    <!-- Tarjeta Retiro  
-                    <div class="border-2 border-slate-200 rounded-2xl p-6 bg-slate-50 flex flex-col justify-between hover:border-[#1E4D8B] transition">
-                        <div>
-                            <span class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full uppercase">Todos</span>
-                            <h3 class="text-2xl font-bold mt-3 mb-2 text-slate-900">Aniversario  - Talanga Francisco Morazán</h3>
-                            <p class="text-slate-600 text-sm mb-4">Para este aniversario estan cordialmente invitados todos los HOMBRES y MUJERES que ya realizarón su retiro del Movimiento.</p>
-                        </div>
-                         ENLACE DIRECTO AL FORMULARIO 
-                        <a href="#contacto" class="w-full btn-primary py-3 rounded-xl mt-4 text-center block">Solicitar Información</a>
-                    </div>         -->            
-                    
-
                     <!-- Tarjeta Retiro  -->
                     <div class="border-2 border-slate-200 rounded-2xl p-6 bg-slate-50 flex flex-col justify-between hover:border-[#1E4D8B] transition">
                         <div>
@@ -452,14 +420,9 @@
                         <!-- ENLACE DIRECTO AL FORMULARIO -->
                         <a href="#contacto" class="w-full btn-primary py-3 rounded-xl mt-4 text-center block">Solicitar Información</a>
                     </div>
-                    
-                    
-
-
                 </div>
             </div>
         </section>
-        
 
 
 
@@ -479,10 +442,7 @@
     <!-- -------------------------------------------------------------------------------------------------- -->
 
 
-        <!-- SECCIÓN CONTACTO -->
-<!-- ==========================================================================
-     SECCIÓN CONTACTO CORREGIDA 
-     ========================================================================== -->
+<!-- SECCIÓN CONTACTO -->
 <section id="contacto" class="py-24 px-6 bg-slate-900 text-white">
     <div class="max-w-4xl mx-auto">
         <div class="text-center mb-12">
@@ -528,7 +488,6 @@
     </div>
 </section>
 
-        <!-- FOOTER -->
 <!-- FOOTER CON REDES SOCIALES -->
         <footer class="bg-slate-950 text-slate-400 py-12 px-6 border-t border-slate-800 text-center text-sm">
             <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
@@ -564,8 +523,6 @@
         </div>
 
 <!-- ------------------------------------------------------------------------------------------- -->
-
-
 
         <!-- SCRIPTS INTERACTIVOS -->
         <script>
